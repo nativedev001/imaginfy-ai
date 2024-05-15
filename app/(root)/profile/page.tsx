@@ -1,7 +1,6 @@
 import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-
 import { Collection } from "@/components/shared/Collection";
 import Header from "@/components/shared/Header";
 import { getUserImages } from "@/lib/actions/image.actions";
@@ -14,7 +13,11 @@ const Profile = async ({ searchParams }: SearchParamProps) => {
   if (!userId) redirect("/sign-in");
 
   const user = await getUserById(userId);
-  const images = await getUserImages({ page, userId: user._id });
+  console.log("here is user", user);
+  if(user){
+    var images = await getUserImages({ page,  userId: user._id });
+  }
+ 
 
   return (
     <>
@@ -31,7 +34,7 @@ const Profile = async ({ searchParams }: SearchParamProps) => {
               height={50}
               className="size-9 md:size-12"
             />
-            <h2 className="h2-bold text-dark-600">{user.creditBalance}</h2>
+            <h2 className="h2-bold text-dark-600">{user && user.creditBalance}</h2>
           </div>
         </div>
 
